@@ -23,7 +23,7 @@ module.exports = {
     },
     output: {
         filename: 'http-live-player2.js',
-        path: res(__dirname, 'public')
+        path: res(__dirname, 'dist')
     },
     resolve: {
         extensions: ['.ts', '.js', '.json']
