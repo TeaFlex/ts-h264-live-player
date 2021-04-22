@@ -1,15 +1,14 @@
 {
-  "name": "webpacktest",
+  "name": "http-live-player2",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "build": "webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "teaflex",
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "^14.14.41",
     "ts-loader": "^9.1.0",
@@ -20,5 +19,14 @@
   },
   "dependencies": {
     "sylvester.js": "^0.1.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TeaFlex/ts-http-live-player.git"
+  },
+  "bugs": {
+    "url": "https://github.com/TeaFlex/ts-http-live-player/issues"
+  },
+  "homepage": "https://github.com/TeaFlex/ts-http-live-player#readme",
+  "description": ""
 }
