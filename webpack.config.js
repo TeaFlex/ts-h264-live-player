@@ -1,17 +1,9 @@
 const res = require('path').resolve;
-var fs = require('fs');
-
-var nodeModules = {};
-fs.readdirSync('node_modules')
-  .filter((x) => {
-    return ['.bin'].indexOf(x) === -1;
-  })
-  .forEach((mod) => {
-    nodeModules[mod] = `commonjs ${mod}`;
-  });
 
 module.exports = {
     entry: "./src/index.ts",
+    mode: "development",
+    devtool: 'inline-source-map',
     module: {
         rules: [
             {
@@ -22,12 +14,17 @@ module.exports = {
         ]
     },
     output: {
-        filename: 'http-live-player2.js',
-        path: res(__dirname, 'dist')
+        filename: 'ts-http-live-player.js',
+        path: res(__dirname, 'public'),
+        libraryTarget: "var",
+        library: "Live"
     },
     resolve: {
-        extensions: ['.ts', '.js', '.json']
+        extensions: ['.ts', '.js', '.json'],
+        fallback: {
+          fs: false
+        }
     },
-    externals: nodeModules,
-    target: 'node',
+    plugins: [
+    ]
 };

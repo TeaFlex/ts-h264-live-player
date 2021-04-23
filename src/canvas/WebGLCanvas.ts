@@ -4,7 +4,8 @@ import { Program } from "./Program";
 import { Script } from "./Script";
 import { Shader } from "./Shader";
 import { Texture } from "./Texture";
-const { Matrix, $V } = require("sylvester.js");
+const Matrix  = require("sylvester.js").Matrix;
+const $V = require("sylvester.js").Vector.create;
 
 var vertexShaderScript = Script.createFromSource("x-shader/x-vertex", `
   attribute vec3 aVertexPosition;
@@ -30,10 +31,10 @@ var fragmentShaderScript = Script.createFromSource("x-shader/x-fragment", `
 export class WebGLCanvas {
 
     public gl: WebGLRenderingContext;
-    public frameBuffer: WebGLFramebuffer | null = null;;
-    public frameBufferTexture: WebGLTexture | null = null;;
-    public quadVPBuffer: WebGLBuffer | null = null;;
-    public quadVTCBuffer: WebGLBuffer | null = null;;
+    public frameBuffer: WebGLFramebuffer | null = null;
+    public frameBufferTexture: WebGLTexture | null = null;
+    public quadVPBuffer: WebGLBuffer | null = null;
+    public quadVTCBuffer: WebGLBuffer | null = null;
     public program: Program | null = null;
     public mvMatrix: any;
     public perspectiveMatrix: any;
@@ -192,9 +193,9 @@ export class WebGLCanvas {
             name = (name) ? name + "(" + err + ")":
                 ("Unknown WebGL ENUM (0x)");
             if (operation) {
-            console.log("WebGL Error: %s, %s", operation, name);
+                console.log("WebGL Error: %s, %s", operation, name);
             } else {
-            console.log("WebGL Error: %s", name);
+                console.log("WebGL Error: %s", name);
             }
             console.trace();
         }

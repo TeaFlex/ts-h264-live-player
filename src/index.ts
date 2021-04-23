@@ -102,7 +102,7 @@ export class WSAvcPlayer extends EventEmitter {
 
     this.ws!.onclose = () => {
       running = false;
-      console.log("WSAvcPlayer: Connection closed")
+      console.log(`WSAvcPlayer: Connection closed on ${this.ws!.url}`);
     };
   }
 

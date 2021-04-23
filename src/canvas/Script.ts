@@ -11,14 +11,14 @@ export class Script {
 
         // Didn't find an element with the specified ID, abort.
         if(!script)
-        throw `Could not find shader with ID: ${id}`;
+            throw `Could not find shader with ID: ${id}`;
 
         // Walk through the source element's children, building the shader source string.
         var source = "";
         var currentChild = script .firstChild;
         while(currentChild) {
             if (currentChild.nodeType == 3) {
-            source += currentChild.textContent;
+                source += currentChild.textContent;
             }
             currentChild = currentChild.nextSibling;
         }
@@ -31,7 +31,7 @@ export class Script {
 
     static createFromSource(script: string, source: string) {
         return new Script(
-            (script as any).type,
+            script,
             source
         );
     }

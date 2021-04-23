@@ -6,6 +6,7 @@
 export class Shader {
     shader: WebGLShader | null;
     constructor(gl: WebGLRenderingContext, script: any) {
+        
         this.shader = null;
         if (script.type == "x-shader/x-fragment") {
             this.shader = gl.createShader(gl.FRAGMENT_SHADER);
