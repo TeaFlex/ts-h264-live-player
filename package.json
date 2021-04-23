@@ -25,11 +25,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TeaFlex/ts-http-live-player.git"
+    "url": "git+https://github.com/TeaFlex/ts-h264-live-player.git"
   },
   "bugs": {
-    "url": "https://github.com/TeaFlex/ts-http-live-player/issues"
+    "url": "https://github.com/TeaFlex/ts-h264-live-player/issues"
   },
-  "homepage": "https://github.com/TeaFlex/ts-http-live-player#readme",
-  "description": ""
+  "homepage": "https://github.com/TeaFlex/ts-h264-live-player#readme",
+  "description": "> Just a typescript portage of 131/h264-live-player."
 }
