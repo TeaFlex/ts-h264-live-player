@@ -43,6 +43,7 @@ export class YUVCanvas extends WebGLCanvas {
     VTexture: Texture | null = null;
     constructor(canvas: HTMLCanvasElement, size: Size) {
         super(canvas, size);
+        this.decode = this.decode.bind(this);
     }
 
     onInitShaders() {

@@ -1,0 +1,1 @@
+export const Avc = require('../broadway/Decoder');

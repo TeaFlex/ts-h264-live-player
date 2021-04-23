@@ -43,6 +43,7 @@ export class YUVWebGLCanvas extends WebGLCanvas {
     VTexture: Texture | null = null;
     constructor(canvas: HTMLCanvasElement, size: Size) {
         super(canvas, size);
+        this.decode = this.decode.bind(this);
     }
 
     onInitShaders() {
@@ -86,7 +87,7 @@ export class YUVWebGLCanvas extends WebGLCanvas {
         this.YTexture!.fill(buffer.subarray(0, lumaSize), null);
         this.UTexture!.fill(buffer.subarray(lumaSize, lumaSize + chromaSize), null);
         this.VTexture!.fill(buffer.subarray(lumaSize + chromaSize, lumaSize + 2 * chromaSize), null);
-        this.drawScene();
+        this.drawScene(); 
     }
 
     toString() {
