@@ -8,15 +8,28 @@
     <style>
         canvas {
             border: solid 5px;
-            border-color: red;
             margin: 20px;
+        }
+        canvas.stop {
+            border-color: red;
+        }
+        canvas.play {
+            animation-name: play-animation;
+            animation-duration: 1s;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+        }
+
+        @keyframes play-animation {
+            from { border-color: rgb(16, 177, 16); }
+            to { border-color: rgb(141, 209, 38); }
         }
     </style>
 </head>
 <body>
     <button id="requestStream" class="action">Start stream</button>
     <button id="stopStream" class="action">Stop stream</button>
-    <button id="disconnect" onclick="player.disconnect()">Disconnect</button>
+    <button id="disconnect">Disconnect</button>
     <button id="pauseStream" class="action">toggle Pause</button>
     <form>
         <input type="text" name="target" id="target">
@@ -27,7 +40,7 @@
     <script>
         const canvas = document.createElement("canvas");
         const player = new WSAvcPlayer(canvas, "webgl", 1, 35);
-        const ws = new WebSocket("ws://192.168.1.101:8070");
+        const ws = new WebSocket("ws://192.168.1.102:8070");
         player.connectWithCustomClient(ws);
 
         const actions = document.getElementsByClassName("action");
@@ -36,13 +49,22 @@
             action.addEventListener('click', () => {
                 ws.send(namedAction);
                 if(namedAction === "REQUESTSTREAM")
-                    canvas.style.borderColor = "green";
-                if(namedAction === "STOPSTREAM")
-                    canvas.style.borderColor = "red";
+                canvas.classList.replace('stop', 'play');
+                if(namedAction === "STOPSTREAM") 
+                    canvas.classList.replace('play', 'stop');
             });
         }
+
+        canvas.classList.add('stop');
+
         player.on("canvasReady", () => {
             document.body.appendChild(canvas);
+        });
+
+        document.getElementById("disconnect")
+        .addEventListener('click', () => {
+            player.disconnect();
+            document.body.removeChild(canvas);
         });
     </script>
 </body>

@@ -25,17 +25,19 @@ export class WSAvcPlayer extends EventEmitter {
     let naltype = "invalid frame";
 
     if (data.length > 4) {
-      if (data[4] == 0x65) {
-        naltype = "I frame";
-      }
-      else if (data[4] == 0x41) {
-        naltype = "P frame";
-      }
-      else if (data[4] == 0x67) {
-        naltype = "SPS";
-      }
-      else if (data[4] == 0x68) {
-        naltype = "PPS";
+      switch(data[4]) {
+        case 0x65:
+          naltype = "I frame";
+          break;
+        case 0x41:
+          naltype = "P frame";
+          break;
+        case 0x67:
+          naltype = "SPS";
+          break;
+        case 0x68:
+          naltype = "PPS";
+          break;
       }
     }
     this.avc.decode(data);
@@ -67,12 +69,13 @@ export class WSAvcPlayer extends EventEmitter {
 
     let framesList: Uint8Array[] = [];
 
-    this.ws!.onmessage = (evt) => {
+    this.ws!.onmessage = async (evt) => {
       if(typeof evt.data === "string")
         return this.cmd(JSON.parse(evt.data));
 
       this.pktnum++;
-      const frame = new Uint8Array(evt.data);
+      const frame = new Uint8Array(await evt.data.arrayBuffer());
+      
       framesList.push(frame);
     };
 
@@ -94,7 +97,7 @@ export class WSAvcPlayer extends EventEmitter {
 
       if(frame)
         this.decode(frame);
-
+        
       requestAnimationFrame(shiftFrame);
     };
     shiftFrame.bind(this);
@@ -110,10 +113,10 @@ export class WSAvcPlayer extends EventEmitter {
     const canvasFactory = this.canvasType === "webgl" || this.canvasType == "YUVWebGLCanvas"
                         ? YUVWebGLCanvas
                         : YUVCanvas;
-
+    
     const canvas = new canvasFactory(this.canvas, new Size(width, height));
+    
     this.avc.onPictureDecoded = (buffer: any, width: any, height: any) => {
-      console.log("ça passe");
       canvas.decode(buffer, width, height);
     };
     this.emit("canvasReady", width, height);

@@ -38,12 +38,12 @@ var fragmentShaderScript = Script.createFromSource("x-shader/x-fragment", `
 `);
 
 export class YUVWebGLCanvas extends WebGLCanvas {
-    YTexture: Texture | null = null
-    UTexture: Texture | null = null;
-    VTexture: Texture | null = null;
+    YTexture?: Texture;
+    UTexture?: Texture;
+    VTexture?: Texture;
+
     constructor(canvas: HTMLCanvasElement, size: Size) {
         super(canvas, size);
-        this.decode = this.decode.bind(this);
     }
 
     onInitShaders() {
