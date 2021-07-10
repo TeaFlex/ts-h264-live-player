@@ -1,3 +1,4 @@
 import { WSAvcPlayer } from "./wsavc/WSAvcPlayer";
-(window as any).WSAvcPlayer = WSAvcPlayer;
-export default WSAvcPlayer;
+if(typeof window !== "undefined")
+    (window as any).WSAvcPlayer = WSAvcPlayer;
+export * from './wsavc/WSAvcPlayer';

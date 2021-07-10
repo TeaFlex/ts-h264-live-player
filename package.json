@@ -1,10 +1,10 @@
 {
   "name": "ts-h264-live-player",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "serve": "webpack-dev-server",
-    "build": "webpack",
+    "build": "tsc && webpack",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -31,5 +31,5 @@
     "url": "https://github.com/TeaFlex/ts-h264-live-player/issues"
   },
   "homepage": "https://github.com/TeaFlex/ts-h264-live-player#readme",
-  "description": "> Just a typescript portage of 131/h264-live-player."
+  "description": "Just a typescript portage of 131/h264-live-player."
 }
