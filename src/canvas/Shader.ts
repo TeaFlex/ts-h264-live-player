@@ -3,9 +3,11 @@
  * script tags.
  */
 
+import { Script } from "./Script";
+
 export class Shader {
     shader: WebGLShader | null;
-    constructor(gl: WebGLRenderingContext, script: any) {
+    constructor(gl: WebGLRenderingContext, script: Script) {
         
         this.shader = null;
         if (script.type === "x-shader/x-fragment") {

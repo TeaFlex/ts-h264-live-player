@@ -1,11 +1,10 @@
-import { makePerspective } from "../utils/glUtils";
+import { makePerspective, modMatrix as Matrix } from "../utils/glUtils";
 import { Size } from "../utils/Size";
 import { Program } from "./Program";
 import { Script } from "./Script";
 import { Shader } from "./Shader";
 import { Texture } from "./Texture";
-const Matrix  = require("sylvester.js").Matrix;
-const $V = require("sylvester.js").Vector.create;
+import "sylvester";
 
 var vertexShaderScript = Script.createFromSource("x-shader/x-vertex", `
   attribute vec3 aVertexPosition;
@@ -243,6 +242,11 @@ export class WebGLCanvas {
 
     drawScene() {
         this.gl.drawArrays(this.gl.TRIANGLE_STRIP, 0, 4);
+    }
+
+    clearScene() {
+        this.gl.clearColor(0,0,0,1);
+        this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
     }
 
     readPixels(buffer: ArrayBufferView) {

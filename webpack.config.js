@@ -16,13 +16,14 @@ module.exports = {
     output: {
         filename: 'ts-http-live-player.js',
         path: res(__dirname, 'public'),
-        libraryTarget: "var",
-        library: "Live"
+        // libraryTarget: "var",
+        // library: "Live"
     },
     resolve: {
         extensions: ['.ts', '.js', '.json'],
         fallback: {
-          fs: false
+          fs: false,
+          lapack: false,
         }
     },
     plugins: [

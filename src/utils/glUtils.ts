@@ -1,12 +1,18 @@
-"use strict";
+import "sylvester";
+const { Matrix, Vector } = require("sylvester");
 
-var Matrix = require('sylvester.js').Matrix;
-var Vector = require('sylvester.js').Vector;
-var $M     = Matrix.create;
+interface ModMatrix extends Sylvester.MatrixStatic {
+    element?: number[];
+    Translation: (v: Vector) => ModMatrix;
+    flatten: () => number[];
+    ensure4x4: () => any;
+}
 
+export const modMatrix: ModMatrix = Matrix;
+export { Vector };
 
 // augment Sylvester some
-Matrix.Translation = function (v: any)
+(Matrix as any).Translation = function (v: Vector)
 {
   if (v.elements.length == 2) {
     var r = Matrix.I(3);
@@ -24,9 +30,9 @@ Matrix.Translation = function (v: any)
   }
 
   throw "Invalid length for Translation";
-}
+};
 
-Matrix.prototype.flatten = function ()
+(Matrix as any).prototype.flatten = function ()
 {
     var result = [];
     if (this.elements.length == 0)
@@ -37,10 +43,10 @@ Matrix.prototype.flatten = function ()
         for (var i = 0; i < this.elements.length; i++)
             result.push(this.elements[i][j]);
     return result;
-}
+};
 
-Matrix.prototype.ensure4x4 = function()
-{
+(Matrix as any).prototype.ensure4x4 = function()
+{   
     if (this.elements.length == 4 &&
         this.elements[0].length == 4)
         return this;
@@ -50,35 +56,24 @@ Matrix.prototype.ensure4x4 = function()
         return null;
 
     for (var i = 0; i < this.elements.length; i++) {
-        for (var j = this.elements[i].length; j < 4; j++) {
-            if (i == j)
-                this.elements[i].push(1);
-            else
-                this.elements[i].push(0);
-        }
+        for (var j = this.elements[i].length; j < 4; j++)
+            this.elements[i].push((i === j)? 1 : 0);
     }
 
     for (var i: number = this.elements.length; i < 4; i++) {
-        if (i == 0)
-            this.elements.push([1, 0, 0, 0]);
-        else if (i == 1)
-            this.elements.push([0, 1, 0, 0]);
-        else if (i == 2)
-            this.elements.push([0, 0, 1, 0]);
-        else if (i == 3)
-            this.elements.push([0, 0, 0, 1]);
+        const tab = [0, 0, 0, 0];
+        tab[i] = 1;
+        this.elements.push(tab);
     }
 
     return this;
 };
 
 
-Vector.prototype.flatten = function ()
+(Vector as any).prototype.flatten = function ()
 {
     return this.elements;
 };
-
-
 
 //
 // gluPerspective
@@ -113,3 +108,4 @@ function makeFrustum(left: any, right: any,
                [0, 0, -1, 0]]);
 }
 
+console.log();
