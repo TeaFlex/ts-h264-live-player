@@ -14,7 +14,7 @@ module.exports = {
         ]
     },
     output: {
-        filename: 'ts-http-live-player.js',
+        filename: 'ts-h264-live-player.js',
         path: res(__dirname, 'public'),
     },
     resolve: {

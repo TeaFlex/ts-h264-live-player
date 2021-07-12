@@ -65,27 +65,27 @@ export class YUVCanvas extends WebGLCanvas {
     }
 
     onInitSceneTextures() {
-        this.YTexture!.bind(0, this.program, "YTexture");
-        this.UTexture!.bind(1, this.program, "UTexture");
-        this.VTexture!.bind(2, this.program, "VTexture");
+        this.YTexture!.bind(0, this.program!, "YTexture");
+        this.UTexture!.bind(1, this.program!, "UTexture");
+        this.VTexture!.bind(2, this.program!, "VTexture");
     }
 
-    fillYUVTextures(y: any, u: any, v: any) {
-        this.YTexture!.fill(y, null);
-        this.UTexture!.fill(u, null);
-        this.VTexture!.fill(v, null);
+    fillYUVTextures(y: Uint8Array, u: Uint8Array, v: Uint8Array) {
+        this.YTexture!.fill(y);
+        this.UTexture!.fill(u);
+        this.VTexture!.fill(v);
     }
 
-    decode(buffer: any, width: number, height: number) {
+    decode(buffer: Uint8Array, width: number, height: number) {
         if (!buffer)
             return;
 
         var lumaSize = width * height;
         var chromaSize = lumaSize >> 2;
 
-        this.YTexture!.fill(buffer.subarray(0, lumaSize), null);
-        this.UTexture!.fill(buffer.subarray(lumaSize, lumaSize + chromaSize), null);
-        this.VTexture!.fill(buffer.subarray(lumaSize + chromaSize, lumaSize + 2 * chromaSize), null);
+        this.YTexture!.fill(buffer.subarray(0, lumaSize));
+        this.UTexture!.fill(buffer.subarray(lumaSize, lumaSize + chromaSize));
+        this.VTexture!.fill(buffer.subarray(lumaSize + chromaSize, lumaSize + 2 * chromaSize));
         this.drawScene();
     }
 

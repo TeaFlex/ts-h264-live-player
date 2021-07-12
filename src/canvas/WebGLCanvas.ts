@@ -1,10 +1,13 @@
-import { makePerspective } from "../utils/glUtils";
 import { Size } from "../utils/Size";
 import { Program } from "./Program";
 import { Script } from "./Script";
 import { Shader } from "./Shader";
 import { Texture } from "./Texture";
-import { Matrix, Vector } from "../utils/sylvester";
+import { 
+    Matrix, 
+    Vector, 
+    makePerspective 
+} from "../utils/sylvesterGlUtils";
 
 var vertexShaderScript = Script.createFromSource("x-shader/x-vertex", `
   attribute vec3 aVertexPosition;
@@ -35,8 +38,8 @@ export class WebGLCanvas {
     public quadVPBuffer: WebGLBuffer | null = null;
     public quadVTCBuffer: WebGLBuffer | null = null;
     public program: Program | null = null;
-    public mvMatrix: any;
-    public perspectiveMatrix: any;
+    public mvMatrix?: Matrix;
+    public perspectiveMatrix?: Matrix;
     public glNames: any;
     public vertexPositionAttribute: number = 0;
     public textureCoordAttribute: number = 0;
@@ -128,17 +131,17 @@ export class WebGLCanvas {
         this.mvMatrix = Matrix.I(4);
     }
     
-    mvMultiply(m: any) {
-        this.mvMatrix = this.mvMatrix.x(m);
+    mvMultiply(m: Matrix) {
+        (this.mvMatrix as any) = this.mvMatrix!.x(m);
     }
 
     mvTranslate(m: any) {
-        this.mvMultiply((Matrix as any).Translation(Vector.create([m[0], m[1], m[2]])).ensure4x4());
+        this.mvMultiply(Matrix.Translation(Vector.create([m[0], m[1], m[2]]))!.ensure4x4()!);
     }
 
     setMatrixUniforms() {
-        this.program!.setMatrixUniform("uPMatrix", new Float32Array(this.perspectiveMatrix.flatten()));
-        this.program!.setMatrixUniform("uMVMatrix", new Float32Array(this.mvMatrix.flatten()));
+        this.program!.setMatrixUniform("uPMatrix", new Float32Array(this.perspectiveMatrix!.flatten()));
+        this.program!.setMatrixUniform("uMVMatrix", new Float32Array(this.mvMatrix!.flatten()));
     }
 
     initScene() {

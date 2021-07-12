@@ -1,5 +1,5 @@
 export class Program {
-    private program: WebGLProgram | null;
+    public program: WebGLProgram | null;
 
     constructor(private gl: WebGLRenderingContext) {
         this.program = this.gl.createProgram();

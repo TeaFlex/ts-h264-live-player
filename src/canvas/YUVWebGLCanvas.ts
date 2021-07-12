@@ -60,21 +60,21 @@ export class YUVWebGLCanvas extends WebGLCanvas {
 
     onInitTextures() {
         console.log("creatingTextures: size: " + this.size);
-        this.YTexture = new Texture(this.gl, this.size, null);
-        this.UTexture = new Texture(this.gl, this.size.getHalfSize(), null);
-        this.VTexture = new Texture(this.gl, this.size.getHalfSize(), null);
+        this.YTexture = new Texture(this.gl, this.size);
+        this.UTexture = new Texture(this.gl, this.size.getHalfSize());
+        this.VTexture = new Texture(this.gl, this.size.getHalfSize());
     }
 
     onInitSceneTextures() {
-        this.YTexture!.bind(0, this.program, "YTexture");
-        this.UTexture!.bind(1, this.program, "UTexture");
-        this.VTexture!.bind(2, this.program, "VTexture");
+        this.YTexture!.bind(0, this.program!, "YTexture");
+        this.UTexture!.bind(1, this.program!, "UTexture");
+        this.VTexture!.bind(2, this.program!, "VTexture");
     }
 
-    fillYUVTextures(y: any, u: any, v: any) {
-        this.YTexture!.fill(y, null);
-        this.UTexture!.fill(u, null);
-        this.VTexture!.fill(v, null);
+    fillYUVTextures(y: Uint8Array, u: Uint8Array, v: Uint8Array) {
+        this.YTexture!.fill(y);
+        this.UTexture!.fill(u);
+        this.VTexture!.fill(v);
     }
 
     decode(buffer: Uint8Array, width: number, height: number) {
@@ -84,9 +84,9 @@ export class YUVWebGLCanvas extends WebGLCanvas {
         var lumaSize = width * height;
         var chromaSize = lumaSize >> 2;
 
-        this.YTexture!.fill(buffer.subarray(0, lumaSize), null);
-        this.UTexture!.fill(buffer.subarray(lumaSize, lumaSize + chromaSize), null);
-        this.VTexture!.fill(buffer.subarray(lumaSize + chromaSize, lumaSize + 2 * chromaSize), null);
+        this.YTexture!.fill(buffer.subarray(0, lumaSize));
+        this.UTexture!.fill(buffer.subarray(lumaSize, lumaSize + chromaSize));
+        this.VTexture!.fill(buffer.subarray(lumaSize + chromaSize, lumaSize + 2 * chromaSize));
         this.drawScene(); 
     }
 
