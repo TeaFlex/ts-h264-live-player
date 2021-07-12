@@ -79,7 +79,7 @@ export abstract class WebGLCanvas extends Canvas {
         this.frameBufferTexture = new Texture(this.gl, this.size, gl.RGBA);
 
         // Create and allocate renderbuffer for depth data.
-        var renderbuffer = gl.createRenderbuffer();
+        const renderbuffer = gl.createRenderbuffer();
         gl.bindRenderbuffer(gl.RENDERBUFFER, renderbuffer);
         gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, this.size.w, this.size.h);
 
@@ -92,13 +92,12 @@ export abstract class WebGLCanvas extends Canvas {
      * Initialize vertex and texture coordinate buffers for a plane.
      */
     initBuffers() {
-        var tmp;
-        var gl = this.gl;
+        let gl = this.gl;
         
         // Create vertex position buffer.
         this.quadVPBuffer = gl.createBuffer()!;
         gl.bindBuffer(gl.ARRAY_BUFFER, this.quadVPBuffer);
-        tmp = [
+        let tmp = [
             1.0,  1.0, 0.0,
             -1.0,  1.0, 0.0, 
             1.0, -1.0, 0.0, 
@@ -106,8 +105,8 @@ export abstract class WebGLCanvas extends Canvas {
         ];
         
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(tmp), gl.STATIC_DRAW);
-        (this.quadVPBuffer as any).itemSize = 3;
-        (this.quadVPBuffer as any).numItems = 4;
+        //(this.quadVPBuffer as any).itemSize = 3;
+        //(this.quadVPBuffer as any).numItems = 4;
         
         /*
         +--------------------+ 
@@ -121,8 +120,8 @@ export abstract class WebGLCanvas extends Canvas {
         +--------------------+
         */
         
-        var scaleX = 1.0;
-        var scaleY = 1.0;
+        const scaleX = 1.0;
+        const scaleY = 1.0;
         
         // Create vertex texture coordinate buffer.
         this.quadVTCBuffer = gl.createBuffer()!;
@@ -141,6 +140,8 @@ export abstract class WebGLCanvas extends Canvas {
     }
     
     mvMultiply(m: Matrix) {
+        console.log(this.mvMatrix);
+        
         (this.mvMatrix as any) = this.mvMatrix!.x(m);
     }
 

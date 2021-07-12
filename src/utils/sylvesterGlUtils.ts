@@ -352,10 +352,10 @@ export class Matrix {
             this.elements[0].length != M[0].length) { return false; }
         var ni = this.elements.length, ki = ni, i, nj, kj = this.elements[0].length, j;
         do { i = ki - ni;
-        nj = kj;
-        do { j = kj - nj;
-            if (Math.abs(this.elements[i][j] - M[i][j]) > Sylvester.precision) { return false; }
-        } while (--nj);
+            nj = kj;
+            do { j = kj - nj;
+                if (Math.abs(this.elements[i][j] - M[i][j]) > Sylvester.precision) { return false; }
+            } while (--nj);
         } while (--ni);
         return true;
     }
@@ -369,11 +369,11 @@ export class Matrix {
     map(fn: (x: number, i: number, j: number) => number) {
         var els: number[][] = [], ni = this.elements.length, ki = ni, i, nj, kj = this.elements[0].length, j;
         do { i = ki - ni;
-        nj = kj;
-        els[i] = [];
-        do { j = kj - nj;
-            els[i][j] = fn(this.elements[i][j], i + 1, j + 1);
-        } while (--nj);
+            nj = kj;
+            els[i] = [];
+            do { j = kj - nj;
+                els[i][j] = fn(this.elements[i][j], i + 1, j + 1);
+            } while (--nj);
         } while (--ni);
         return Matrix.create(els);
     }
@@ -431,7 +431,7 @@ export class Matrix {
                 sum = 0;
                 nc = cols;
                 do { c = cols - nc;
-                sum += this.elements[i][c] * M[c][j];
+                    sum += this.elements[i][c] * M[c][j];
                 } while (--nc);
                 elements[i][j] = sum;
             } while (--nj);
@@ -483,9 +483,9 @@ export class Matrix {
         var m = 0, ni = this.elements.length, ki = ni, i, nj, kj = this.elements[0].length, j;
         do { i = ki - ni;
         nj = kj;
-        do { j = kj - nj;
-            if (Math.abs(this.elements[i][j]) > Math.abs(m)) { m = this.elements[i][j]; }
-        } while (--nj);
+            do { j = kj - nj;
+                if (Math.abs(this.elements[i][j]) > Math.abs(m)) { m = this.elements[i][j]; }
+            } while (--nj);
         } while (--ni);
         return m;
     }
@@ -495,9 +495,9 @@ export class Matrix {
         var index = null, ni = this.elements.length, ki = ni, i, nj, kj = this.elements[0].length, j;
         do { i = ki - ni;
         nj = kj;
-        do { j = kj - nj;
-            if (this.elements[i][j] == x) { return {i: i+1, j: j+1}; }
-        } while (--nj);
+            do { j = kj - nj;
+                if (this.elements[i][j] == x) { return {i: i+1, j: j+1}; }
+            } while (--nj);
         } while (--ni);
         return null;
     }
@@ -508,7 +508,7 @@ export class Matrix {
         if (!this.isSquare) { return null; }
         var els = [], n = this.elements.length, k = n, i;
         do { i = k - n;
-        els.push(this.elements[i][i]);
+            els.push(this.elements[i][i]);
         } while (--n);
         return Vector.create(els);
     }
@@ -525,7 +525,7 @@ export class Matrix {
             if (M!.elements[j][i] != 0) {
                 els = []; np = kp;
                 do { p = kp - np;
-                els.push(M!.elements[i][p] + M!.elements[j][p]);
+                    els.push(M!.elements[i][p] + M!.elements[j][p]);
                 } while (--np);
                 M!.elements[i] = els;
                 break;
@@ -558,7 +558,7 @@ export class Matrix {
         var M = this.toRightTriangular();
         var det = M!.elements[0][0], n = M!.elements.length - 1, k = n, i;
         do { i = k - n + 1;
-        det = det * M!.elements[i][i];
+            det = det * M!.elements[i][i];
         } while (--n);
         return det;
     }
@@ -575,7 +575,7 @@ export class Matrix {
         if (!this.isSquare()) { return null; }
         var tr = this.elements[0][0], n = this.elements.length - 1, k = n, i;
         do { i = k - n + 1;
-        tr += this.elements[i][i];
+            tr += this.elements[i][i];
         } while (--n);
         return tr;
     }
@@ -587,10 +587,10 @@ export class Matrix {
         var M = this.toRightTriangular(), rank = 0;
         var ni = this.elements.length, ki = ni, i, nj, kj = this.elements[0].length, j;
         do { i = ki - ni;
-        nj = kj;
-        do { j = kj - nj;
-            if (Math.abs(M!.elements[i][j]) > Sylvester.precision) { rank++; break; }
-        } while (--nj);
+            nj = kj;
+            do { j = kj - nj;
+                if (Math.abs(M!.elements[i][j]) > Sylvester.precision) { rank++; break; }
+            } while (--nj);
         } while (--ni);
         return rank;
     }
@@ -605,10 +605,10 @@ export class Matrix {
         var ni = T!.elements.length, ki = ni, i, nj, kj = M[0].length, j;
         if (ni != M.length) { return null; }
         do { i = ki - ni;
-        nj = kj;
-        do { j = kj - nj;
-            T!.elements[i][cols + j] = M[i][j];
-        } while (--nj);
+            nj = kj;
+            do { j = kj - nj;
+                T!.elements[i][cols + j] = M[i][j];
+            } while (--nj);
         } while (--ni);
         return T;
     }
@@ -640,7 +640,7 @@ export class Matrix {
         for (j = 0; j < i; j++) {
             els = []; np = kp;
             do { p = kp - np;
-            els.push(M!.elements[j][p] - M!.elements[i][p] * M!.elements[j][i]);
+                els.push(M!.elements[j][p] - M!.elements[i][p] * M!.elements[j][i]);
             } while (--np);
             M!.elements[j] = els;
         }
@@ -659,7 +659,7 @@ export class Matrix {
     // differ from it by less than Sylvester.precision
     snapTo(x: number) {
         return this.map(function(p) {
-        return (Math.abs(p - x) <= Sylvester.precision) ? x : p;
+            return (Math.abs(p - x) <= Sylvester.precision) ? x : p;
         });
     }
 
@@ -668,7 +668,7 @@ export class Matrix {
         var matrix_rows = [];
         var n = this.elements.length, k = n, i;
         do { i = k - n;
-        matrix_rows.push(Vector.create(this.elements[i]).inspect());
+            matrix_rows.push(Vector.create(this.elements[i]).inspect());
         } while (--n);
         return matrix_rows.join('\n');
     }
@@ -684,7 +684,7 @@ export class Matrix {
             nj = elements[i].length; kj = nj;
             this.elements[i] = [];
             do { j = kj - nj;
-            this.elements[i][j] = elements[i][j];
+                this.elements[i][j] = elements[i][j];
             } while (--nj);
         } while(--ni);
         return this;
@@ -701,7 +701,7 @@ export class Matrix {
         do { i = k - n;
             els[i] = []; nj = k;
             do { j = k - nj;
-            els[i][j] = (i == j) ? 1 : 0;
+                els[i][j] = (i == j) ? 1 : 0;
             } while (--nj);
         } while (--n);
         return Matrix.create(els);
@@ -777,7 +777,7 @@ export class Matrix {
             els[i] = [];
             nj = m;
             do { j = m - nj;
-            els[i][j] = 0;
+                els[i][j] = 0;
             } while (--nj);
         } while (--ni);
         return Matrix.create(els);
