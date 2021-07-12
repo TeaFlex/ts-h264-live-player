@@ -1,31 +1,20 @@
-import "sylvester";
-const { Matrix, Vector } = require("sylvester");
-
-interface ModMatrix extends Sylvester.MatrixStatic {
-    element?: number[];
-    Translation: (v: Vector) => ModMatrix;
-    flatten: () => number[];
-    ensure4x4: () => any;
-}
-
-export const modMatrix: ModMatrix = Matrix;
-export { Vector };
+import { Matrix, Vector } from "./sylvester";
 
 // augment Sylvester some
 (Matrix as any).Translation = function (v: Vector)
 {
   if (v.elements.length == 2) {
     var r = Matrix.I(3);
-    r.elements[2][0] = v.elements[0];
-    r.elements[2][1] = v.elements[1];
+    r!.elements[2][0] = v.elements[0];
+    r!.elements[2][1] = v.elements[1];
     return r;
   }
 
   if (v.elements.length == 3) {
     var r = Matrix.I(4);
-    r.elements[0][3] = v.elements[0];
-    r.elements[1][3] = v.elements[1];
-    r.elements[2][3] = v.elements[2];
+    r!.elements[0][3] = v.elements[0];
+    r!.elements[1][3] = v.elements[1];
+    r!.elements[2][3] = v.elements[2];
     return r;
   }
 
@@ -102,7 +91,7 @@ function makeFrustum(left: any, right: any,
     var C = -(zfar+znear)/(zfar-znear);
     var D = -2*zfar*znear/(zfar-znear);
 
-    return $M([[X, 0, A, 0],
+    return Matrix.create([[X, 0, A, 0],
                [0, Y, B, 0],
                [0, 0, C, D],
                [0, 0, -1, 0]]);

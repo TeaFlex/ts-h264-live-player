@@ -74,18 +74,19 @@ export class WSAvcPlayer extends EventEmitter {
         return this.cmd(JSON.parse(evt.data));
 
       this.pktnum++;
-      const frame = new Uint8Array(await evt.data.arrayBuffer());
-      
+
+      const buffer = (evt.data instanceof Blob)? await evt.data.arrayBuffer(): evt.data;
+
+      const frame = new Uint8Array(buffer);
       framesList.push(frame);
     };
 
 
-    var running = true;
+    let running = true;
 
     const shiftFrame = () => {
       if(!running)
         return;
-
 
       if(framesList.length > 10) {
         console.log("Dropping frames", framesList.length);
@@ -93,7 +94,6 @@ export class WSAvcPlayer extends EventEmitter {
       }
 
       let frame = framesList.shift();
-
 
       if(frame)
         this.decode(frame);
@@ -115,20 +115,26 @@ export class WSAvcPlayer extends EventEmitter {
                         : YUVCanvas;
     
     const canvas = new canvasFactory(this.canvas, new Size(width, height));
-    
-    this.avc.onPictureDecoded = (buffer: any, width: any, height: any) => {
+    this.avc.onPictureDecoded = (buffer: Uint8Array, width: number, height: number) => {      
       canvas.decode(buffer, width, height);
     };
     this.emit("canvasReady", width, height);
   }
 
-  cmd(cmd: any){
+  cmd(cmd: {action: string, [key: string]: any}){
     console.log("Incoming request", cmd);
 
-    if(cmd.action == "init") {
+    if(cmd.action === "init") {
       this.initCanvas(cmd.width, cmd.height);
       this.canvas.width  = cmd.width;
       this.canvas.height = cmd.height;
+    }
+  }
+
+  send(obj: any) {
+    if(this.ws) {
+      this.ws.send(obj);
+      console.log(`"${obj}" sent.`);
     }
   }
 

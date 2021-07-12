@@ -16,8 +16,6 @@ module.exports = {
     output: {
         filename: 'ts-http-live-player.js',
         path: res(__dirname, 'public'),
-        // libraryTarget: "var",
-        // library: "Live"
     },
     resolve: {
         extensions: ['.ts', '.js', '.json'],

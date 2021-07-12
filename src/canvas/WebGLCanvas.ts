@@ -1,10 +1,10 @@
-import { makePerspective, modMatrix as Matrix } from "../utils/glUtils";
+import { makePerspective } from "../utils/glUtils";
 import { Size } from "../utils/Size";
 import { Program } from "./Program";
 import { Script } from "./Script";
 import { Shader } from "./Shader";
 import { Texture } from "./Texture";
-import "sylvester";
+import { Matrix, Vector } from "../utils/sylvester";
 
 var vertexShaderScript = Script.createFromSource("x-shader/x-vertex", `
   attribute vec3 aVertexPosition;
@@ -133,7 +133,7 @@ export class WebGLCanvas {
     }
 
     mvTranslate(m: any) {
-        this.mvMultiply(Matrix.Translation($V([m[0], m[1], m[2]])).ensure4x4());
+        this.mvMultiply((Matrix as any).Translation(Vector.create([m[0], m[1], m[2]])).ensure4x4());
     }
 
     setMatrixUniforms() {
@@ -205,12 +205,12 @@ export class WebGLCanvas {
             this.gl = this.canvas.getContext("webgl")!;
         } catch(e) {}
 
-        if (!this.gl) {
+        if (!this.gl)
             console.error("Unable to initialize WebGL. Your browser may not support it.");
-        }
-        if (this.glNames) {
+ 
+        if (this.glNames)
             return;
-        }
+    
         this.glNames = {};
         for (const propertyName in (this.gl as any)) {
             if (typeof (this.gl as any)[propertyName] === 'number') {
@@ -232,8 +232,7 @@ export class WebGLCanvas {
     }
 
     onInitTextures() {
-        var gl = this.gl;
-        this.texture = new Texture(gl, this.size, gl.RGBA);
+        this.texture = new Texture(this.gl, this.size, this.gl.RGBA);
     }
 
     onInitSceneTextures() {
@@ -250,7 +249,6 @@ export class WebGLCanvas {
     }
 
     readPixels(buffer: ArrayBufferView) {
-        var gl = this.gl;
-        gl.readPixels(0, 0, this.size.w, this.size.h, gl.RGBA, gl.UNSIGNED_BYTE, buffer);
+        this.gl.readPixels(0, 0, this.size.w, this.size.h, this.gl.RGBA, this.gl.UNSIGNED_BYTE, buffer);
     }
 }

@@ -77,7 +77,7 @@ export class YUVWebGLCanvas extends WebGLCanvas {
         this.VTexture!.fill(v, null);
     }
 
-    decode(buffer: any, width: number, height: number) {
+    decode(buffer: Uint8Array, width: number, height: number) {
         if (!buffer)
             return;
 
