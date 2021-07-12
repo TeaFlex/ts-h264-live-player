@@ -1,10 +1,5 @@
 import { Size } from "../utils/Size";
-import { Canvas } from "./Canvas";
-import { Program } from "./Program";
-import { Script } from "./Script";
-import { Shader } from "./Shader";
-import { Texture } from "./Texture";
-import { WebGLCanvas } from "./WebGLCanvas";
+import { Canvas } from "./base/Canvas";
 
 export class YUVCanvas extends Canvas {
     
@@ -20,8 +15,6 @@ export class YUVCanvas extends Canvas {
     decode(buffer: Uint8Array, width: number, height: number) {
         if (!buffer)
             return;
-
-            console.log("a");
             
         const lumaSize = width * height;
         const chromaSize = lumaSize >> 2;
@@ -48,9 +41,5 @@ export class YUVCanvas extends Canvas {
         }
         
         this.canvasCtx!.putImageData(this.canvasBuffer, 0, 0);
-    }
-
-    toString() {
-        return "YUVCanvas Size: " + this.size;
     }
 }

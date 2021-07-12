@@ -1,6 +1,5 @@
 import { EventEmitter } from "events";
-import { YUVCanvas } from "../canvas/YUVCanvas";
-import { YUVWebGLCanvas } from "../canvas/YUVWebGLCanvas";
+import * as Canvases from "../canvas";
 import { Avc } from "../utils/Consts";
 import { Size } from "../utils/Size";
 
@@ -12,10 +11,17 @@ export class WSAvcPlayer extends EventEmitter {
   private ws: WebSocket | null;
   private pktnum: number;
 
-  constructor(canvas: HTMLCanvasElement, canvasType: string) {
+  constructor(canvas: HTMLCanvasElement, canvasType?: string) {
     super();
     this.canvas = canvas;
-    this.canvasType = canvasType;
+    if(!canvasType) 
+      canvasType = this.getCanvasTypes()[1];
+    if(!this.getCanvasTypes().includes(canvasType)) {
+      this.canvasType = this.getCanvasTypes()[1];
+      console.warn(`"${canvasType}" is not a valid canvas type, ${this.canvasType} will be used instead.\nValid canvas types: ${this.getCanvasTypes()}.`);
+    }
+    else this.canvasType = canvasType;
+    this.canvasType += "Canvas";
     this.avc = new Avc();
     this.ws = null;
     this.pktnum = 0;
@@ -110,10 +116,7 @@ export class WSAvcPlayer extends EventEmitter {
   }
 
   initCanvas(height: number, width: number) {
-    const canvasFactory = this.canvasType === "webgl" || this.canvasType == "YUVWebGLCanvas"
-                        ? YUVWebGLCanvas
-                        : YUVCanvas;
-    
+    const canvasFactory = ((Canvases as any)[this.canvasType]);
     const canvas = new canvasFactory(this.canvas, new Size(width, height));
     this.avc.onPictureDecoded = (buffer: Uint8Array, width: number, height: number) => {      
       canvas.decode(buffer, width, height);
@@ -140,5 +143,9 @@ export class WSAvcPlayer extends EventEmitter {
 
   disconnect() {
     this.ws!.close();
+  }
+
+  getCanvasTypes() {
+    return Object.keys(Canvases as any).map(className => className.replace(/(Canvas)$/gm, ""));
   }
 }

@@ -1,17 +1,14 @@
+import { Shader } from "./Shader";
+
 export class Program {
-    public program: WebGLProgram | null;
+    private program: WebGLProgram | null;
 
     constructor(private gl: WebGLRenderingContext) {
         this.program = this.gl.createProgram();
-        this.attach = this.attach.bind(this);
-        this.link = this.link.bind(this);
-        this.use = this.use.bind(this);
-        this.getAttributeLocation = this.getAttributeLocation.bind(this);
-        this.setMatrixUniform = this.setMatrixUniform.bind(this);
     }
 
-    attach(shader: any) {
-        this.gl.attachShader(this.program!, shader.shader)
+    attach(shader: Shader) {
+        this.gl.attachShader(this.program!, shader.getShader()!)
     }
 
     link() {
@@ -32,5 +29,9 @@ export class Program {
     setMatrixUniform(name: string, array: Float32Array) {
         const uniform = this.gl.getUniformLocation(this.program!, name);
         this.gl.uniformMatrix4fv(uniform, false, array);
+    }
+
+    getProgram() {
+        return this.program;
     }
 }

@@ -39,7 +39,7 @@
     <script src="./ts-h264-live-player.js"></script>
     <script>
         const canvas = document.createElement("canvas");
-        const player = new WSAvcPlayer(canvas, "webgl");
+        const player = new WSAvcPlayer(canvas);
         const ws = new WebSocket("ws://192.168.1.102:8070");
         player.connectWithCustomClient(ws);
 

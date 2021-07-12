@@ -1,9 +1,9 @@
 import { Size } from "../utils/Size";
-import { Program } from "./Program";
-import { Script } from "./Script";
-import { Shader } from "./Shader";
-import { Texture } from "./Texture";
-import { WebGLCanvas } from "./WebGLCanvas";
+import { Program } from "./base/Program";
+import { Script } from "./base/Script";
+import { Shader } from "./base/Shader";
+import { Texture } from "./base/Texture";
+import { WebGLCanvas } from "./base/WebGLCanvas";
 
 var vertexShaderScript = Script.createFromSource("x-shader/x-vertex", `
   attribute vec3 aVertexPosition;
@@ -38,9 +38,9 @@ var fragmentShaderScript = Script.createFromSource("x-shader/x-fragment", `
 `);
 
 export class YUVWebGLCanvas extends WebGLCanvas {
-    YTexture?: Texture;
-    UTexture?: Texture;
-    VTexture?: Texture;
+    private YTexture?: Texture;
+    private UTexture?: Texture;
+    private VTexture?: Texture;
 
     constructor(canvas: HTMLCanvasElement, size: Size, useFrameBuffer?: boolean) {
         super(canvas, size, useFrameBuffer);
@@ -59,7 +59,6 @@ export class YUVWebGLCanvas extends WebGLCanvas {
     }
 
     onInitTextures() {
-        console.log("creatingTextures: size: " + this.size);
         this.YTexture = new Texture(this.gl, this.size);
         this.UTexture = new Texture(this.gl, this.size.getHalfSize());
         this.VTexture = new Texture(this.gl, this.size.getHalfSize());
@@ -88,9 +87,5 @@ export class YUVWebGLCanvas extends WebGLCanvas {
         this.UTexture!.fill(buffer.subarray(lumaSize, lumaSize + chromaSize));
         this.VTexture!.fill(buffer.subarray(lumaSize + chromaSize, lumaSize + 2 * chromaSize));
         this.drawScene(); 
-    }
-
-    toString() {
-        return "YUVCanvas Size: " + this.size;
     }
 }

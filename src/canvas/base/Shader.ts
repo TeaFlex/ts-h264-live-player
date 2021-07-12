@@ -1,12 +1,13 @@
+import { Script } from "./Script";
+
 /**
  * Represents a WebGL shader object and provides a mechanism to load shaders from HTML
  * script tags.
  */
-
-import { Script } from "./Script";
-
 export class Shader {
-    shader: WebGLShader | null;
+
+    private shader: WebGLShader | null;
+
     constructor(gl: WebGLRenderingContext, script: Script) {
         
         this.shader = null;
@@ -30,6 +31,10 @@ export class Shader {
             console.error("An error occurred compiling the shaders: " + gl.getShaderInfoLog(this.shader!));
             return;
         }
+    }
+
+    getShader() {
+        return this.shader;
     }
 }
 

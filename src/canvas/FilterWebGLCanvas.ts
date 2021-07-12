@@ -1,8 +1,9 @@
-import { Program } from "./Program";
-import { Script } from "./Script";
-import { Shader } from "./Shader";
-import { Texture } from "./Texture";
-import { WebGLCanvas } from "./WebGLCanvas";
+import { Size } from "../utils/Size";
+import { Program } from "./base/Program";
+import { Script } from "./base/Script";
+import { Shader } from "./base/Shader";
+import { Texture } from "./base/Texture";
+import { WebGLCanvas } from "./base/WebGLCanvas";
 
 
 var vertexShaderScript = Script.createFromSource("x-shader/x-vertex", `
@@ -29,9 +30,9 @@ var fragmentShaderScript = Script.createFromSource("x-shader/x-fragment", `
 
 export class FilterWebGLCanvas extends WebGLCanvas {
 
-    FTexture?: Texture;
+    private FTexture?: Texture;
 
-    constructor(canvas: HTMLCanvasElement, size: any, useFrameBuffer?: boolean) {
+    constructor(canvas: HTMLCanvasElement, size: Size, useFrameBuffer?: boolean) {
         super(canvas, size, useFrameBuffer);
     }
 
@@ -48,7 +49,6 @@ export class FilterWebGLCanvas extends WebGLCanvas {
     }
     
     onInitTextures() {
-      console.log("creatingTextures: size: " + this.size);
       this.FTexture = new Texture(this.gl, this.size, this.gl.RGBA);
     }
   
@@ -60,9 +60,5 @@ export class FilterWebGLCanvas extends WebGLCanvas {
       this.FTexture!.fill(buffer);
       this.drawScene();
       this.readPixels(output);
-    }
-  
-    toString() {
-      return "FilterWebGLCanvas Size: " + this.size;
     }
 }

@@ -1,4 +1,4 @@
-import { Size } from "../utils/Size";
+import { Size } from "../../utils/Size";
 import { Program } from "./Program";
 import { Script } from "./Script";
 import { Shader } from "./Shader";
@@ -7,7 +7,7 @@ import {
     Matrix, 
     Vector, 
     makePerspective 
-} from "../utils/sylvesterGlUtils";
+} from "../../utils/sylvesterGlUtils";
 import { Canvas } from "./Canvas";
 
 var vertexShaderScript = Script.createFromSource("x-shader/x-vertex", `
@@ -31,7 +31,7 @@ var fragmentShaderScript = Script.createFromSource("x-shader/x-fragment", `
   }
 `);
 
-export class WebGLCanvas extends Canvas {
+export abstract class WebGLCanvas extends Canvas {
 
     public gl: WebGLRenderingContext;
     public frameBuffer: WebGLFramebuffer | null = null;
@@ -44,7 +44,7 @@ export class WebGLCanvas extends Canvas {
     public glNames: any;
     public vertexPositionAttribute: number = 0;
     public textureCoordAttribute: number = 0;
-    public texture: any;
+    public texture?: Texture;
 
     constructor(
         canvas: HTMLCanvasElement, 
@@ -191,12 +191,6 @@ export class WebGLCanvas extends Canvas {
         }
     }
 
-
-
-    toString(){
-        return "WebGLCanvas Size: " + this.size;
-    }
-
     checkLastError(operation: string) {
         var err = this.gl.getError();
         if (err != this.gl.NO_ERROR) {
@@ -248,7 +242,7 @@ export class WebGLCanvas extends Canvas {
     }
 
     onInitSceneTextures() {
-        this.texture.bind(0, this.program, "texture");
+        this.texture!.bind(0, this.program!, "texture");
     }
 
     drawScene() {

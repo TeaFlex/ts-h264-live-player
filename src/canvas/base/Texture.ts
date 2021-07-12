@@ -1,4 +1,4 @@
-import { Size } from "../utils/Size";
+import { Size } from "../../utils/Size";
 import { Program } from "./Program";
 
 export class Texture {
@@ -35,6 +35,6 @@ export class Texture {
         }
         gl.activeTexture(this.textureIDs[n]);
         gl.bindTexture(gl.TEXTURE_2D, this.texture);
-        gl.uniform1i(gl.getUniformLocation(program.program!, name), n);
+        gl.uniform1i(gl.getUniformLocation(program.getProgram()!, name), n);
     }
 }
