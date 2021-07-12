@@ -8,6 +8,7 @@ import {
     Vector, 
     makePerspective 
 } from "../utils/sylvesterGlUtils";
+import { Canvas } from "./Canvas";
 
 var vertexShaderScript = Script.createFromSource("x-shader/x-vertex", `
   attribute vec3 aVertexPosition;
@@ -30,7 +31,7 @@ var fragmentShaderScript = Script.createFromSource("x-shader/x-fragment", `
   }
 `);
 
-export class WebGLCanvas {
+export class WebGLCanvas extends Canvas {
 
     public gl: WebGLRenderingContext;
     public frameBuffer: WebGLFramebuffer | null = null;
@@ -46,10 +47,11 @@ export class WebGLCanvas {
     public texture: any;
 
     constructor(
-        protected canvas: HTMLCanvasElement, 
-        protected size: Size, 
-        protected useFrameBuffer?: boolean
+        canvas: HTMLCanvasElement, 
+        size: Size, 
+        protected useFrameBuffer = false
     ) {
+        super(canvas, size);
         this.canvas.height = size.h;
         this.canvas.width = size.w;
         this.gl = {} as WebGLRenderingContext;
@@ -65,6 +67,9 @@ export class WebGLCanvas {
         this.initScene();
     }
 
+    /**
+     * Initialize a frame buffer so that we can render off-screen.
+     */
     initFrameBuffer() {
         var gl = this.gl;
 
@@ -83,6 +88,9 @@ export class WebGLCanvas {
         gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, renderbuffer);
     }
 
+    /**
+     * Initialize vertex and texture coordinate buffers for a plane.
+     */
     initBuffers() {
         var tmp;
         var gl = this.gl;
@@ -91,10 +99,11 @@ export class WebGLCanvas {
         this.quadVPBuffer = gl.createBuffer()!;
         gl.bindBuffer(gl.ARRAY_BUFFER, this.quadVPBuffer);
         tmp = [
-        1.0,  1.0, 0.0,
-        -1.0,  1.0, 0.0, 
-        1.0, -1.0, 0.0, 
-        -1.0, -1.0, 0.0];
+            1.0,  1.0, 0.0,
+            -1.0,  1.0, 0.0, 
+            1.0, -1.0, 0.0, 
+            -1.0, -1.0, 0.0
+        ];
         
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(tmp), gl.STATIC_DRAW);
         (this.quadVPBuffer as any).itemSize = 3;
@@ -119,10 +128,10 @@ export class WebGLCanvas {
         this.quadVTCBuffer = gl.createBuffer()!;
         gl.bindBuffer(gl.ARRAY_BUFFER, this.quadVTCBuffer);
         tmp = [
-        scaleX, 0.0,
-        0.0, 0.0,
-        scaleX, scaleY,
-        0.0, scaleY,
+            scaleX, 0.0,
+            0.0, 0.0,
+            scaleX, scaleY,
+            0.0, scaleY,
         ];
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(tmp), gl.STATIC_DRAW);
     }

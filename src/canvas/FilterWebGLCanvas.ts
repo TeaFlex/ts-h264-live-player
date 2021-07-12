@@ -28,39 +28,41 @@ var fragmentShaderScript = Script.createFromSource("x-shader/x-fragment", `
 `);
 
 export class FilterWebGLCanvas extends WebGLCanvas {
-    FTexture: any;
-    constructor(canvas: HTMLCanvasElement, size: any, useFrameBuffer: boolean) {
+
+    FTexture?: Texture;
+
+    constructor(canvas: HTMLCanvasElement, size: any, useFrameBuffer?: boolean) {
         super(canvas, size, useFrameBuffer);
     }
 
     onInitShaders() {
-        this.program = new Program(this.gl);
-        this.program.attach(new Shader(this.gl, vertexShaderScript));
-        this.program.attach(new Shader(this.gl, fragmentShaderScript));
-        this.program.link();
-        this.program.use();
-        this.vertexPositionAttribute = this.program.getAttributeLocation("aVertexPosition");
-        this.gl.enableVertexAttribArray(this.vertexPositionAttribute);
-        this.textureCoordAttribute = this.program.getAttributeLocation("aTextureCoord");
-        this.gl.enableVertexAttribArray(this.textureCoordAttribute);
-      }
+      this.program = new Program(this.gl);
+      this.program.attach(new Shader(this.gl, vertexShaderScript));
+      this.program.attach(new Shader(this.gl, fragmentShaderScript));
+      this.program.link();
+      this.program.use();
+      this.vertexPositionAttribute = this.program.getAttributeLocation("aVertexPosition");
+      this.gl.enableVertexAttribArray(this.vertexPositionAttribute);
+      this.textureCoordAttribute = this.program.getAttributeLocation("aTextureCoord");
+      this.gl.enableVertexAttribArray(this.textureCoordAttribute);
+    }
     
-      onInitTextures() {
-        console.log("creatingTextures: size: " + this.size);
-        this.FTexture = new Texture(this.gl, this.size, this.gl.RGBA);
-      }
-    
-      onInitSceneTextures() {
-        this.FTexture.bind(0, this.program, "FTexture");
-      }
-    
-      process(buffer: any, output: ArrayBufferView) {
-        this.FTexture.fill(buffer);
-        this.drawScene();
-        this.readPixels(output);
-      }
-    
-      toString() {
-        return "FilterWebGLCanvas Size: " + this.size;
-      }
+    onInitTextures() {
+      console.log("creatingTextures: size: " + this.size);
+      this.FTexture = new Texture(this.gl, this.size, this.gl.RGBA);
+    }
+  
+    onInitSceneTextures() {
+      this.FTexture!.bind(0, this.program!, "FTexture");
+    }
+  
+    process(buffer: Uint8Array, output: ArrayBufferView) {
+      this.FTexture!.fill(buffer);
+      this.drawScene();
+      this.readPixels(output);
+    }
+  
+    toString() {
+      return "FilterWebGLCanvas Size: " + this.size;
+    }
 }

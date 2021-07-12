@@ -4,7 +4,7 @@ import { Program } from "./Program";
 export class Texture {
     public texture: WebGLTexture;
     public format: any;
-    public textureIDs: any = null;
+    public textureIDs: number[] = [];
 
     constructor(public gl: WebGLRenderingContext, public size: Size, format?: any) {
         this.texture = gl.createTexture()!;
@@ -30,7 +30,7 @@ export class Texture {
     }
     bind(n: number, program: Program, name: string) {
         var gl = this.gl;
-        if (!this.textureIDs) {
+        if (!this.textureIDs.length) {
             this.textureIDs = [gl.TEXTURE0, gl.TEXTURE1, gl.TEXTURE2];
         }
         gl.activeTexture(this.textureIDs[n]);

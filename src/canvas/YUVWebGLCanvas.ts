@@ -42,8 +42,8 @@ export class YUVWebGLCanvas extends WebGLCanvas {
     UTexture?: Texture;
     VTexture?: Texture;
 
-    constructor(canvas: HTMLCanvasElement, size: Size) {
-        super(canvas, size);
+    constructor(canvas: HTMLCanvasElement, size: Size, useFrameBuffer?: boolean) {
+        super(canvas, size, useFrameBuffer);
     }
 
     onInitShaders() {
@@ -81,8 +81,8 @@ export class YUVWebGLCanvas extends WebGLCanvas {
         if (!buffer)
             return;
 
-        var lumaSize = width * height;
-        var chromaSize = lumaSize >> 2;
+        const lumaSize = width * height;
+        const chromaSize = lumaSize >> 2;  
 
         this.YTexture!.fill(buffer.subarray(0, lumaSize));
         this.UTexture!.fill(buffer.subarray(lumaSize, lumaSize + chromaSize));
