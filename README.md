@@ -52,7 +52,7 @@ player.send("REQUESTSTREAM");
 player.send("STOPSTREAM");
 ```
 
->Note that certain requests may not work depending on the server-side app you are using. Please, refers to the server-side app documentation.
+>Note that certain requests may not work depending on the server-side app you are using. Please, refer to the server-side app documentation.
 
 ## Build it !
 
