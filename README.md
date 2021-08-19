@@ -69,10 +69,10 @@ Then build it with the following command:
 ```sh
 npm run build #or "yarn build"
 ```
-The compiled file will appear in the "public" folder.
+The compiled file will appear in the `public` folder.
 
 If you want to contribute to the project, you can also run it with:
 ```sh
 npm start #or "yarn start"
 ```
-That command will compile the project and serve the content of the "public" folder.
+That command will compile the project and serve the content of the `public` folder.
