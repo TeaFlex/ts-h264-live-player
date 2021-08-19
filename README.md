@@ -9,7 +9,8 @@ Via your favorite package manager:
 ```sh
 #npm
 npm i ts-h264-live-player
-
+```
+```sh
 #yarn
 yarn add ts-h264-live-player
 ```
