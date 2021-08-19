@@ -1,7 +1,7 @@
 # ts-h264-live-player
 Typescript portage of [131/h264-live-player](https://github.com/131/h264-live-player/tree/master/vendor), the client-side h264 video player using WebSocket.
 
-This package needs to be used with either [the server-side](https://github.com/131/h264-live-player) of 131/h264-live-player or either with the package [pistreamer](https://www.npmjs.com/package/pistreamer).
+This package needs to be used with either [the server-side of 131/h264-live-player](https://github.com/131/h264-live-player) or either with the package [pistreamer](https://www.npmjs.com/package/pistreamer).
 
 ## Installation
 
