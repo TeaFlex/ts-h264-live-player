@@ -8,7 +8,12 @@
     "version": "npm run build",
     "postversion": "git push && git push --tags"
   },
-  "keywords": [],
+  "keywords": [
+    "typescript",
+    "browser",
+    "h264",
+    "video-player"
+  ],
   "author": "teaflex",
   "license": "MIT",
   "devDependencies": {
