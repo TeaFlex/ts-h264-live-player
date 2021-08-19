@@ -31,16 +31,15 @@
     <button id="stopStream" class="action">Stop stream</button>
     <button id="disconnect">Disconnect</button>
     <button id="pauseStream" class="action">toggle Pause</button>
-    <form>
-        <input type="text" name="target" id="target">
-        <button type="submit" id="stream">connect</button>
-    </form>
+    <input type="text" name="target" id="target" placeholder="ip address">
+    <button type="submit" id="stream">connect</button>
     
     <script src="./ts-h264-live-player.js"></script>
     <script>
         const canvas = document.createElement("canvas");
-        const player = new WSAvcPlayer(canvas);
-        const ws = new WebSocket("ws://192.168.1.102:8070");
+        const player = new WSAvcPlayer(canvas, "YUVWebGL");
+        //You can change the address below at will.
+        const ws = new WebSocket("ws://127.0.0.1");
         player.connectWithCustomClient(ws);
 
         const actions = document.getElementsByClassName("action");

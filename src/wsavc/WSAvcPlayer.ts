@@ -134,11 +134,19 @@ export class WSAvcPlayer extends EventEmitter {
     }
   }
 
-  send(obj: any) {
+  send(message: string) {
     if(this.ws) {
-      this.ws.send(obj);
-      console.log(`"${obj}" sent.`);
+      this.ws.send(message);
+      console.log(`"${message}" sent.`);
     }
+  }
+
+  startStream() {
+    this.send("REQUESTRSTREAM");
+  }
+
+  stopStream() {
+    this.send("STOPSTREAM");
   }
 
   disconnect() {

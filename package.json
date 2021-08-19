@@ -3,9 +3,8 @@
   "version": "0.1.0",
   "main": "dist/index.js",
   "scripts": {
-    "serve": "webpack-dev-server",
-    "build": "tsc && webpack",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "webpack-dev-server",
+    "build": "tsc && webpack"
   },
   "keywords": [],
   "author": "teaflex",
