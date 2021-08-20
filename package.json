@@ -6,7 +6,7 @@
     "start": "webpack-dev-server",
     "build": "tsc && webpack",
     "preversion": "git merge master && git checkout master",
-    "version": "npm run build",
+    "version": "npm run build && git add .",
     "postversion": "git push && git push --tags"
   },
   "keywords": [
