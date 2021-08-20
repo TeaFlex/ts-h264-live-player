@@ -5,7 +5,7 @@
   "scripts": {
     "start": "webpack-dev-server",
     "build": "tsc && webpack",
-    "preversion": "git merge master && git checkout master",
+    "preversion": "git checkout master && git merge development",
     "version": "npm run build && git add .",
     "postversion": "git push && git push --tags"
   },
