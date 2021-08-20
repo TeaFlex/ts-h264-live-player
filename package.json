@@ -5,8 +5,9 @@
   "scripts": {
     "start": "webpack-dev-server",
     "build": "tsc && webpack",
+    "preversion": "git merge master && git checkout master",
     "version": "npm run build",
-    "postversion": "git merge master && git checkout master && git push && git push --tags"
+    "postversion": "git push && git push --tags"
   },
   "keywords": [
     "typescript",
