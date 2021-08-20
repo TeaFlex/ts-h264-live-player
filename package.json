@@ -1,11 +1,13 @@
 {
   "name": "ts-h264-live-player",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "main": "dist/index.js",
   "scripts": {
     "start": "webpack-dev-server",
     "build": "tsc && webpack",
-    "version": "npm run build"
+    "preversion": "git merge master && git checkout master",
+    "version": "npm run build",
+    "postversion": "git push && git push --tags"
   },
   "keywords": [
     "typescript",
