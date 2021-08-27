@@ -3,6 +3,8 @@ Typescript portage of [131/h264-live-player](https://github.com/131/h264-live-pl
 
 This package needs to be used with either [the server-side of 131/h264-live-player](https://github.com/131/h264-live-player) or either with the package [pistreamer](https://www.npmjs.com/package/pistreamer).
 
+>Note: This package is meant to run on a browser. Trying to directly run it with node.js will result in an error.
+
 ## Installation
 
 Via your favorite package manager:
